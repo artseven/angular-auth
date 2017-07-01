@@ -12,7 +12,8 @@ const session    = require('express-session');
 const passport   = require('passport');
 
 
-mongoose.connect('mongodb://localhost/angular-express');
+require('dotenv').config();
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 
