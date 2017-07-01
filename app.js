@@ -11,7 +11,7 @@ const passportSetup = require('./config/passport');
 const session    = require('express-session');
 const passport   = require('passport');
 
-
+// Load environment config
 require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI);
 
