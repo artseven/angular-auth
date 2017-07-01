@@ -7,7 +7,7 @@ const bodyParser   = require('body-parser');
 const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
 const passportSetup = require('./config/passport');
-
+const dotenv     = require('dotenv');
 const session    = require('express-session');
 const passport   = require('passport');
 
