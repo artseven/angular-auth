@@ -45,7 +45,7 @@ authRoutes.post('/signup', (req, res, next) => {
         res.status(200).json(req.user);
       });
       }
-    });
+    );
   });
 });
 
@@ -84,10 +84,10 @@ authRoutes.get('/loggedin', (req, res, next) => {
     return;
   }
 
-  res.status(403).json({ message: 'Unauthorized' });
+  res.status(403).jason({ message: 'Unauthorized'});
 });
 
-authRoutes.get('/private', (req, res, next) => {
+  authRoutes.get('/private', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.json({ message: 'This is a private message' });
     return;
@@ -95,3 +95,5 @@ authRoutes.get('/private', (req, res, next) => {
 
   res.status(403).json({ message: 'Unauthorized' });
 });
+
+module.exports = authRoutes;
