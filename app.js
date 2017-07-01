@@ -8,8 +8,11 @@ const layouts      = require('express-ejs-layouts');
 const session      = require('express-session');
 const passport     = require('passport');
 const passportSetup = require('./config/passport.js');
+const mongoose = require('mongoose');
 
 const app = express();
+
+mongoose.connect('mongodb://localhost/angular-auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,21 +29,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
-// app.use(session({
-//   // Change to create unique access key as a secret string
-//   secret: '',
-//   // These two options are to prevent warnings
-//   resave: true,
-//   saveUninitialized: true
-// }) );
+// Session starts before the routes
+app.use(session({
+  secret: 'angular auth passport secret shh',
+  resave: true,
+  saveUninitialized: true,
+  cookie : { httpOnly: true, maxAge: 2419200000 }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 //---------HERE GO ALL THE ROUTES-------------------
 const index = require('./routes/index');
 app.use('/', index);
 const authRoutes   = require('./routes/auth-routes');
 app.use('/', authRoutes);
-
+app.use((req, res, next) => {
+  res.sendfile(__dirname + '/public/index.html');
+});
 
 // -------------------------------------------------
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
