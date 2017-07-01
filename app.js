@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
 const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
-
+const passportSetup = require('./config/passport');
 
 const session    = require('express-session');
 const passport   = require('passport');
@@ -44,21 +44,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
-const index = require('./routes/index');
-app.use('/', index);
-
-const authRoutes = require('./routes/auth-routes');
-app.use('/', authRoutes);
-app.use((req, res, next) => {
-  res.sendfile(__dirname + '/public/index.html');
-});
-
-
-
+// ------------ROUTES GO HERE------------------------//
+const index = require('./routes/index');             //
+app.use('/', index);                                 //
+                                                     //
+const authRoutes = require('./routes/auth-routes');  //
+app.use('/', authRoutes);                            //
+app.use((req, res, next) => {                        //
+  res.sendfile(__dirname + '/public/index.html');    //
+});                                                  //
+// --------------------------------------------------
 
 
-const passportSetup = require('./config/passport');
 passportSetup(passport);
 
 // catch 404 and forward to error handler
