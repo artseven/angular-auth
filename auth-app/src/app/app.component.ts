@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SessionService } from './session.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { SessionService } from './session.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   formInfo = {
     username: '',
@@ -18,6 +18,13 @@ export class AppComponent {
   privateData: any='';
 
   constructor(private session: SessionService) { }
+
+  ngOnInit() {
+  this.session.isLoggedIn()
+    .subscribe(
+      (user) => this.successCb(user)
+    );
+  }
 
   login() {
     this.session.login(this.formInfo)
